@@ -1,0 +1,47 @@
+Game.setBackgroundImage('/image/game/roadBackground.png');
+var aiPlayer = new Raster('/images/oldcar.png', 500, 340);
+aiPlayer.scaling = 0.5;
+aiPlayer.onFrame = moveAI
+var player = new Raster('/images/sportscar2.png',500, 200);
+player.scaling = 0.5;
+player.onMouseDown = movePlayer
+var started = false
+var gameover = false;
+var message = new PointText(20, 50);
+message.fontSize = 40;
+message.onMouseDown = reset;
+function moveAI(){
+if (gameover) return;
+if(started){
+aiPlayer.position.x -= 3;
+}
+if(aiPlayer.position.x < 50){
+Game.setBackgroundColor('red');  
+message.content = 'You lose! [Click to restart]'
+  gameover = true;
+}
+  }
+
+function movePlayer(){
+if (gameover) return;
+started = true;
+if(player.onMouseDown){
+  player.position.x -= 20;
+} 
+ if(player.position.x < 50){
+ Game.setBackgroundColor('green');
+  gameover = true;
+message.content = 'You win! [Click to restart]'
+    } 
+  }
+
+function reset(){
+  Game.setBackgroundColor('white');
+  gameover = false;
+  message.content = 'Click the red car to start'
+  started = false;
+  aiPlayer.position.x = 500;
+  player.position.x = 500;
+}
+
+reset();
